@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amt-dual-eval"
+version = "0.1.0"
+description = "Dual evaluation of automatic music transcription systems: DTW/TWED audio metrics + human listening-evaluation release."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Ping Wang" }]
+keywords = ["music transcription", "evaluation", "DTW", "TWED", "human evaluation"]
+
+dependencies = [
+    "numpy>=1.23",
+    "scipy>=1.9",
+    "librosa>=0.10",
+    "pandas>=1.5",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+examples = ["soundfile>=0.12"]
+
+[project.scripts]
+amt-dual-eval = "amt_dual_eval.cli:main"
+
+[project.urls]
+Repository = "https://github.com/pingw220/AMT-Dual-Eval"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"amt_dual_eval.configs" = ["*.yaml", "*.txt"]

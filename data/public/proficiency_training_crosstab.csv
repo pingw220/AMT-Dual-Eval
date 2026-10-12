@@ -1,0 +1,19 @@
+proficiency,training_year_bin,count
+no_experience,0 years,13
+no_experience,1--3 years,3
+no_experience,4--7 years,2
+no_experience,8--10 years,0
+no_experience,More than 10 years,0
+no_experience,Missing / prefer not to answer,0
+amateur,0 years,3
+amateur,1--3 years,12
+amateur,4--7 years,21
+amateur,8--10 years,20
+amateur,More than 10 years,19
+amateur,Missing / prefer not to answer,0
+music_major,0 years,0
+music_major,1--3 years,1
+music_major,4--7 years,2
+music_major,8--10 years,2
+music_major,More than 10 years,8
+music_major,Missing / prefer not to answer,0

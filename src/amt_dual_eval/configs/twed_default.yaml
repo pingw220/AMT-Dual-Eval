@@ -1,0 +1,21 @@
+# Default TWED (Time-Warp Edit Distance) configuration for AMT-Dual-Eval.
+# These settings define the released audio-level evaluation protocol.
+# Score interpretation: lower normalized_cost indicates more similar audio.
+#
+# The default parameters nu = 0.001 and lambda = 2.0 are the setting that best
+# matches human judgments for the default feature (mfcc). They were selected over
+# a grid of nu in {0.0001, 0.001, 0.01} and lambda in {1.0, 2.0}.
+
+nu: 0.001                 # stiffness / time penalty (Marteau TWED)
+lambd: 2.0                # lambda: deletion (gap) penalty
+frame_normalize: l2       # per-frame L2 normalization before the recurrence
+time_unit: frames         # time stamps are frame indices (0,1,2,...), not seconds
+metric: euclidean_l2_frames    # euclidean distance on L2-normalized frames
+twed_mode: fast           # exact; rolling-row dynamic program
+aggregation: path_normalized   # normalized_cost = total_cost / path_length
+compute_dtype: float32
+dp_accumulation_dtype: float64
+
+# Default single feature for `audio-score --metric twed` when --feature is omitted.
+# mfcc is the strongest TWED feature against human rankings (see feature_registry.yaml).
+default_feature: mfcc

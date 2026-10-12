@@ -1,0 +1,2 @@
+provider,instance_type,region,vcpus,memory_gb,on_demand_price_per_hour_usd,price_per_vcpu_hour_usd,source_url,access_date,notes
+Google Cloud Compute Engine,c3-highcpu-4,us-central1,4,8,0.1701,0.042525,https://www.economize.cloud/resources/gcp/pricing/compute-engine/c3-highcpu-4/,2026-06-06,On-demand Linux pricing. Compute-optimized (C3) family chosen as a representative CPU instance comparable to the institutional compute partition used for DTW/TWED. price_per_vcpu_hour_usd = on_demand_price_per_hour_usd / vcpus.

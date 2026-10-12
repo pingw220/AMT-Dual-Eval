@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite it as below."
+title: "AMT-Dual-Eval: Dual Evaluation of Automatic Music Transcription Systems"
+authors:
+  - family-names: "Wang"
+    given-names: "Ping"
+  - family-names: "Smith"
+    given-names: "Noah A."
+version: 0.1.0
+date-released: "2026-06-03"
+license: MIT  # source code; data under data/public/ is CC BY 4.0 (see DATA_LICENSE.md)
+repository-code: "https://github.com/pingw220/AMT-Dual-Eval"
+# A Zenodo DOI will be added after archival release.
+preferred-citation:
+  type: article
+  title: "A Dual Evaluation for Music Transcription"
+  authors:
+    - family-names: "Wang"
+      given-names: "Ping"
+    - family-names: "Yang"
+      given-names: "Guang"
+    - family-names: "Tamer"
+      given-names: "Nazif Can"
+    - family-names: "Ebert"
+      given-names: "Victoria"
+    - family-names: "Smith"
+      given-names: "Noah A."
+  year: 2026
+  journal: "arXiv preprint arXiv:2608.04511"
+  doi: "10.48550/arXiv.2608.04511"
+  url: "https://arxiv.org/abs/2608.04511"
