@@ -1,0 +1,39 @@
+# Raw/private data — NEVER commit
+raw/
+private/
+sensitive/
+exports/
+giftcard_verify_*/
+*.zip
+*.sqlite
+*.db
+
+# Local outputs
+outputs/private/
+data/raw/
+data/intermediate/
+participant_id_mapping*
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Environment/secrets
+.env
+.env.*
+*.key
+*.pem
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
+
+# Local benchmark working outputs (not part of the release)
+outputs/

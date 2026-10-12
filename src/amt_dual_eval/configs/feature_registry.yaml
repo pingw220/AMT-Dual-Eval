@@ -1,0 +1,101 @@
+# Feature settings used by the released AMT-Dual-Eval audio-metric pipeline.
+# These values define the reproducible defaults for the released evaluation.
+#
+# All features share: audio loaded as mono at 44.1 kHz with a 10 ms hop
+# (hop_length = round(hop_ms * 1e-3 * sr) = 441 samples), and a final per-frame
+# L2 normalization with a non-finite cleanup step.
+#
+# The default feature differs by metric (see dtw_default.yaml / twed_default.yaml).
+# Selection rationale per feature is given by `rank_or_selection_reason`, based on
+# agreement with the human consensus ranking (Spearman correlation).
+
+global:
+  sample_rate: 44100
+  channels: mono            # librosa.load(..., sr=44100) downmixes to mono
+  hop_ms: 10
+  hop_length: 441           # derived: round(hop_ms * 1e-3 * sr)
+  frame_normalization: l2   # per-frame L2 norm applied inside every extractor
+  nonfinite_cleanup: nan_to_num(nan=0, posinf=0, neginf=0)
+
+features:
+
+  # ---- Top-3 features by DTW vs. human consensus-rank Spearman ----
+  tempogram:
+    description: >
+      Autocorrelation tempogram of the onset-strength envelope, log1p
+      compressed and per-frame L2 normalized. Captures periodic/rhythmic
+      structure. Best single DTW feature against human rankings.
+    extraction_function: TempogramFeatureExtractor
+    sample_rate: 44100
+    hop_length: 441
+    n_fft: null
+    feature_specific_parameters:
+      win_length: 384        # frames
+      tempo_min: 30.0        # BPM (informational; not passed to librosa.tempogram)
+      tempo_max: 300.0       # BPM (informational)
+      post: log1p_then_l2
+    normalization: per_frame_l2
+    rank_or_selection_reason: >
+      DTW top-1 (Spearman 0.8887 vs human consensus_rank); also TWED top-3.
+
+  chroma_cens:
+    description: >
+      Chroma Energy Normalized Statistics (CENS): CQT chroma with L1 norm,
+      quantization and temporal smoothing; then per-frame L2 normalized.
+      Robust to local tempo/dynamics. In the DTW and TWED top-3.
+    extraction_function: ChromaCENSFeatureExtractor
+    sample_rate: 44100
+    hop_length: 441
+    n_fft: null
+    feature_specific_parameters:
+      n_chroma: 12
+      win_len_smooth: 41
+      use_tuning: true
+    normalization: per_frame_l2
+    rank_or_selection_reason: >
+      DTW top-2 (Spearman 0.8878) and TWED top-2 (Spearman 0.8896) vs human
+      consensus_rank.
+
+  chroma:
+    description: >
+      CQT-based chromagram (12 pitch classes), tuning-corrected, then per-frame
+      L2 normalized. Octave-invariant harmonic content.
+    extraction_function: ChromaFeatureExtractor
+    sample_rate: 44100
+    hop_length: 441
+    n_fft: null
+    feature_specific_parameters:
+      n_chroma: 12
+      use_tuning: true
+      norm: 2              # librosa chroma_cqt norm order
+    normalization: per_frame_l2
+    rank_or_selection_reason: >
+      DTW top-3 (Spearman 0.8696 vs human consensus_rank; tied with hpcp).
+
+  # ---- Additional top feature for TWED ----
+  mfcc:
+    description: >
+      20 MFCCs plus first-order deltas (40-d), per-frame L2 normalized.
+      Best single TWED feature against human rankings.
+    extraction_function: MFCCFeatureExtractor
+    sample_rate: 44100
+    hop_length: 441
+    n_fft: 2048
+    feature_specific_parameters:
+      n_fft: 2048
+      n_mfcc: 20
+      n_mels: 128
+      fmin: 0.0
+      fmax: 22050.0          # sr/2
+      use_delta: true
+      use_delta2: false
+    normalization: per_frame_l2
+    rank_or_selection_reason: >
+      TWED top-1 (Spearman 0.9217 vs human consensus_rank). NOTE: mfcc is the
+      WORST DTW feature (0.7409), so it is a TWED-only top feature.
+
+# ---- Selected top-3 features per metric, ranked by agreement (Spearman) with the
+#      human consensus ranking. The DTW and TWED top-3 sets differ. ----
+top3:
+  dtw:  [tempogram, chroma_cens, chroma]
+  twed: [mfcc, chroma_cens, tempogram]

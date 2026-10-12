@@ -1,0 +1,9 @@
+# Runtime dependencies, based on actual imports in src/amt_dual_eval and scripts/.
+numpy>=1.23
+scipy>=1.9
+librosa>=0.10
+pandas>=1.5
+pyyaml>=6.0
+
+# Optional (for writing example audio):
+# soundfile>=0.12

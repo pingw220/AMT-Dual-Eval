@@ -1,0 +1,53 @@
+# Evaluated systems (pipelines) for AMT-Dual-Eval.
+#
+# A "system" (pipeline) = an automatic music transcription (AMT) MODEL whose
+# MIDI output is converted to a musical score and rendered to audio through a
+# CONVERTER. 8 models x 3 converters = 24 systems. All rendering used the SGM
+# SoundFont ("sgm").
+#
+# Reference performance audio source: ATEPP dataset (real piano performances).
+# Candidate audio: AMT model -> MIDI -> converter -> score -> SGM-rendered WAV.
+
+soundfont: sgm
+
+models:                  # the 8 AMT systems (model abbreviations)
+  - aria_amt
+  - bytedance_piano
+  - transkun
+  - ismir2021
+  - ismir2022_base
+  - ismir2022_small
+  - mt3
+  - basic_pitch_new
+
+converters:              # MIDI -> score -> audio renderers
+  - MIDI2ScoreTransformer
+  - musescore
+  - music21
+
+# 24 pipelines, formatted "<model>+<converter>", system_id matches system_table.csv
+systems:
+  - {system_id: 0,  pipeline: aria_amt+MIDI2ScoreTransformer,         model: aria_amt,         converter: MIDI2ScoreTransformer}
+  - {system_id: 1,  pipeline: aria_amt+musescore,                     model: aria_amt,         converter: musescore}
+  - {system_id: 2,  pipeline: aria_amt+music21,                       model: aria_amt,         converter: music21}
+  - {system_id: 3,  pipeline: basic_pitch_new+MIDI2ScoreTransformer,  model: basic_pitch_new,  converter: MIDI2ScoreTransformer}
+  - {system_id: 4,  pipeline: basic_pitch_new+musescore,              model: basic_pitch_new,  converter: musescore}
+  - {system_id: 5,  pipeline: basic_pitch_new+music21,                model: basic_pitch_new,  converter: music21}
+  - {system_id: 6,  pipeline: bytedance_piano+MIDI2ScoreTransformer,  model: bytedance_piano,  converter: MIDI2ScoreTransformer}
+  - {system_id: 7,  pipeline: bytedance_piano+musescore,              model: bytedance_piano,  converter: musescore}
+  - {system_id: 8,  pipeline: bytedance_piano+music21,                model: bytedance_piano,  converter: music21}
+  - {system_id: 9,  pipeline: ismir2021+MIDI2ScoreTransformer,        model: ismir2021,        converter: MIDI2ScoreTransformer}
+  - {system_id: 10, pipeline: ismir2021+musescore,                    model: ismir2021,        converter: musescore}
+  - {system_id: 11, pipeline: ismir2021+music21,                      model: ismir2021,        converter: music21}
+  - {system_id: 12, pipeline: ismir2022_base+MIDI2ScoreTransformer,   model: ismir2022_base,   converter: MIDI2ScoreTransformer}
+  - {system_id: 13, pipeline: ismir2022_base+musescore,               model: ismir2022_base,   converter: musescore}
+  - {system_id: 14, pipeline: ismir2022_base+music21,                 model: ismir2022_base,   converter: music21}
+  - {system_id: 15, pipeline: ismir2022_small+MIDI2ScoreTransformer,  model: ismir2022_small,  converter: MIDI2ScoreTransformer}
+  - {system_id: 16, pipeline: ismir2022_small+musescore,              model: ismir2022_small,  converter: musescore}
+  - {system_id: 17, pipeline: ismir2022_small+music21,                model: ismir2022_small,  converter: music21}
+  - {system_id: 18, pipeline: mt3+MIDI2ScoreTransformer,              model: mt3,              converter: MIDI2ScoreTransformer}
+  - {system_id: 19, pipeline: mt3+musescore,                          model: mt3,              converter: musescore}
+  - {system_id: 20, pipeline: mt3+music21,                            model: mt3,              converter: music21}
+  - {system_id: 21, pipeline: transkun+MIDI2ScoreTransformer,         model: transkun,         converter: MIDI2ScoreTransformer}
+  - {system_id: 22, pipeline: transkun+musescore,                     model: transkun,         converter: musescore}
+  - {system_id: 23, pipeline: transkun+music21,                       model: transkun,         converter: music21}

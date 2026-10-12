@@ -1,0 +1,15 @@
+# Default DTW configuration for AMT-Dual-Eval.
+# These settings define the released audio-level evaluation protocol.
+# Score interpretation: lower normalized_cost indicates more similar audio;
+# a signal compared with itself yields a cost of ~0.
+
+metric: cosine            # cosine distance between per-frame L2-normalized feature frames
+dtw_mode: fast            # cost matrix + rolling-row accumulation
+aggregation: path_normalized   # normalized_cost = total_cost / path_length
+window_ratio: null        # null = unconstrained (full) DTW; set a ratio for banded DTW
+step_pattern: symmetric_dtw    # standard 3-direction DTW (match / insert / delete)
+compute_dtype: float32
+
+# Default single feature for `audio-score --metric dtw` when --feature is omitted.
+# tempogram is the strongest DTW feature against human rankings (see feature_registry.yaml).
+default_feature: tempogram
